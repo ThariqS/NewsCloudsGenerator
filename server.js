@@ -49,9 +49,19 @@ app.post('/testStories', function(req, res) {
 app.get('/graphData', function(req, res) {
 
   var title = req.query.title;
-  console.log('title!', title);
 
   var results = mediacloudAPI.getGraphData(title, function(results) {
+    res.json(results);
+  });
+
+});
+
+app.get('/relatedTerms', function(req, res) {
+
+  var title = req.query.title;
+  console.log('title!', title);
+
+  var results = mediacloudAPI.getRelatedTerms(title, function(results) {
     res.json(results);
   });
 

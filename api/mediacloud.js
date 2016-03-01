@@ -63,22 +63,18 @@ module.exports.getGraphData = function(title, callback) {
 module.exports.getRelatedTerms = function(title, callback) {
 
   var q = 'sentence:' + title + ' AND tags_id_media:8875027';
-  var split = 'true';
-  var split_start_date = '2015-09-01';
-  var split_end_date = '2016-03-01';
 
   var params = {
     q: q,
     fq: null,
-    split: split,
-    split_start_date: split_start_date,
-    split_end_date: split_end_date,
     key: secretKey
   };
 
+  // https://api.mediacloud.org/api/v2/wc/list?q=obama+AND+media_id:1
+
   var queryString = querystringUtils.stringify(params);
 
-  var url = 'https://api.mediacloud.org/api/v2/sentences/count?' + queryString;
+  var url = 'https://api.mediacloud.org/api/v2/wc/list?' + queryString;
 
   request
     .get(url)
