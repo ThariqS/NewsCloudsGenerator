@@ -63,6 +63,7 @@
     "eslint": "^1.10.3",
     "express": "^4.12.3",
     "history": "^1.17.0",
+    "lodash": "^4.5.1",
     "moment": "^2.11.1",
     "q": "^1.4.1",
     "radium": "^0.16.4",
@@ -72,6 +73,7 @@
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3",
     "react-selectize": "^0.6.2",
+    "recharts": "^0.7.0",
     "superagent": "^1.7.2",
     "superagent-jsonapify": "^1.4.1"
   }

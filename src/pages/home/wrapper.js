@@ -11,10 +11,9 @@ class Wrapper extends React.Component {
 		this.state = { type: props.type, value: props.value };
 	}
 	value() {
-		return this.refs.value();
+		return this.refs.val.value();
 	}
 	expand() {
-		console.log(this);
 		this.setState({ type: 'group', value: null });
 	}
 	render() {
@@ -22,14 +21,13 @@ class Wrapper extends React.Component {
 		return (
 			<div style={styles.wrapper}>
 			<span style={styles.inline}>
+			{ (this.state.type === 'title') ? <button style={[styles.inline, styles.button]} onClick={this.expand.bind(this)}>+</button> : null }
 			{
 				(this.state.type === 'title')
-				? <TextOperator value={this.state.value}/>
-				: <GroupOperator value={this.state.value}/>
+				? <TextOperator ref="val" value={this.state.value}/>
+				: <GroupOperator ref="val" value={this.state.value}/>
 			}
 			</span>
-
-			{ (this.state.type === 'title') ? <button style={[styles.inline, styles.button]} onClick={this.expand.bind(this)}>+</button> : null }
 
 			</div>
 		);

@@ -27,6 +27,70 @@ while True:
 
 var count = 0;
 
+module.exports.getGraphData = function(title, callback) {
+
+  var q = 'sentence:' + title + ' AND tags_id_media:8875027';
+  var split = 'true';
+  var split_start_date = '2015-09-01';
+  var split_end_date = '2016-03-01';
+
+  var params = {
+    q: q,
+    fq: null,
+    split: split,
+    split_start_date: split_start_date,
+    split_end_date: split_end_date,
+    key: secretKey
+  };
+
+  var queryString = querystringUtils.stringify(params);
+
+  var url = 'https://api.mediacloud.org/api/v2/sentences/count?' + queryString;
+
+  request
+    .get(url)
+    .set('Content-Type', 'application/json')
+    .end(function(err, res){
+
+      if (err) {
+        console.log(err);
+      }
+      callback(res.body);
+    });
+}
+
+
+module.exports.getRelatedTerms = function(title, callback) {
+
+  var q = 'sentence:' + title + ' AND tags_id_media:8875027';
+  var split = 'true';
+  var split_start_date = '2015-09-01';
+  var split_end_date = '2016-03-01';
+
+  var params = {
+    q: q,
+    fq: null,
+    split: split,
+    split_start_date: split_start_date,
+    split_end_date: split_end_date,
+    key: secretKey
+  };
+
+  var queryString = querystringUtils.stringify(params);
+
+  var url = 'https://api.mediacloud.org/api/v2/sentences/count?' + queryString;
+
+  request
+    .get(url)
+    .set('Content-Type', 'application/json')
+    .end(function(err, res){
+
+      if (err) {
+        console.log(err);
+      }
+      callback(res.body);
+    });
+}
 
 function loopThroughApiCall (start, rows, q, fq, results, callback) {
 
@@ -35,7 +99,7 @@ function loopThroughApiCall (start, rows, q, fq, results, callback) {
   var queryString = querystringUtils.stringify(params);
 
   var url = 'https://api.mediacloud.org/api/v2/stories_public/list/?' + queryString;
-  
+
   request
     .get(url)
     .set('Content-Type', 'application/json')
