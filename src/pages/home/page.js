@@ -3,6 +3,7 @@ import GroupOperator from './group';
 import request from 'superagent';
 import SourceSelector from './sourceSelector';
 import Results from './results';
+import Portal from 'react-portal';
 
 let styles = {};
 
@@ -13,18 +14,10 @@ export default class HomePage extends React.Component {
   }
   submitButton() {
 
-    const query = this.refs.group.value();
-    this.setState({query, loaded: true, results: []});
-
-    request
-      .post('/stories')
-      .send({ q: query.q, fq: query.fq })
-      .end(function(err, res){
-        console.log("Got result!");
-        console.log(err);
-        console.log(res.body);
-        this.setState({loaded: true, results: res.body});
-      }.bind(this));
+    let query = this.refs.group.value();
+    let sources = this.refs.source.getSources();
+    // query.q = `${query.q} AND ${this.refs.source.getSources()[0]}`;
+    this.setState({query, sources, loaded: true, results: []});
 
   }
   render() {
@@ -36,7 +29,9 @@ export default class HomePage extends React.Component {
         <h2 style={styles.subHeader}>Sources:</h2>
         <SourceSelector ref="source"/>
         <button style={styles.button} onClick={this.submitButton.bind(this)}>Submit</button>
-        {/* (this.state.loaded === true) ? <Results results={this.state.results}/> : null */}
+        <Portal isOpened={this.state.loaded} closeOnEsc closeOnOutsideClick>
+          <Results sources={this.state.sources} query={this.state.query}/>
+        </Portal>
 
       </div>
     );

@@ -25,8 +25,6 @@ while True:
       process_stories( stories )
 */
 
-var count = 0;
-
 module.exports.getGraphData = function(title, callback) {
 
   var q = 'sentence:' + title + ' AND tags_id_media:8875027';
@@ -88,13 +86,16 @@ module.exports.getRelatedTerms = function(title, callback) {
     });
 }
 
-function loopThroughApiCall (start, rows, q, fq, results, callback) {
+function loopThroughApiCall (start, rows, count, q, fq, results, callback) {
 
   var params = {'last_processed_stories_id': start, rows: rows, q: q, fq: fq, key: secretKey };
 
   var queryString = querystringUtils.stringify(params);
 
   var url = 'https://api.mediacloud.org/api/v2/stories_public/list/?' + queryString;
+
+  console.log(params);
+  console.log(url);
 
   request
     .get(url)
@@ -109,7 +110,7 @@ function loopThroughApiCall (start, rows, q, fq, results, callback) {
       if (res.body.length > 0 && count < 3) {
         var last_id = res.body[res.body.length - 1].processed_stories_id;
         const newResults = results.concat(res.body);
-        loopThroughApiCall(last_id, rows, q, fq, newResults, callback);
+        loopThroughApiCall(last_id, rows, count, q, fq, newResults, callback);
       } else {
         callback(results);
       }
@@ -127,10 +128,10 @@ module.exports.testStory = function() {
   var callbackFunc = function(results) {
     console.log(results);
   }
-  loopThroughApiCall(0,5,q,fq,[],callbackFunc);
+  loopThroughApiCall(0,5,0,q,fq,[],callbackFunc);
 };
 
 
 module.exports.getStories = function(q, fq, callback) {
-  loopThroughApiCall(0,10,q,fq,[],callback);
+  loopThroughApiCall(0,10,0,q,fq,[],callback);
 };

@@ -59,7 +59,6 @@ app.get('/graphData', function(req, res) {
 app.get('/relatedTerms', function(req, res) {
 
   var title = req.query.title;
-  console.log('title!', title);
 
   var results = mediacloudAPI.getRelatedTerms(title, function(results) {
     res.json(results);
@@ -69,11 +68,12 @@ app.get('/relatedTerms', function(req, res) {
 
 app.post('/stories', function(req, res) {
 
-  console.log(req.body);
   var q = req.body.q;
   var fq = req.body.fq;
 
-  var results = mediacloudAPI.getStories(fq, q, function(results) {
+  // q = q + " AND tags_id_media:8875027";
+
+  var results = mediacloudAPI.getStories(q, fq, function(results) {
     console.log(results);
     res.json(results);
   });
