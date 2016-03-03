@@ -75,6 +75,7 @@
     "react-selectize": "^0.6.2",
     "recharts": "^0.7.0",
     "superagent": "^1.7.2",
-    "superagent-jsonapify": "^1.4.1"
+    "superagent-jsonapify": "^1.4.1",
+    "tether": "^1.2.0"
   }
 }

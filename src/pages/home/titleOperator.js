@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Radium from 'Radium';
 import Graph from './graph';
+import Related from './related';
 
 let styles = {};
 
@@ -36,7 +37,7 @@ class TitleOperator extends React.Component {
 				<input ref="val" onChange={this.onChange.bind(this)} style={styles.textInput} type="text"></input>
 				{ (this.state.graphData) ?
 					<span> <Graph title={this.state.title}/> <span style={styles.related}>
-						<strong>Related:</strong> Campaign, Cruz, Rubio, Mexico</span></span>
+                <Related title={this.state.title}/></span></span>
 				: null }
 			</span>
 		);
