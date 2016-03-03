@@ -67,7 +67,8 @@ module.exports.getRelatedTerms = function(title, callback) {
   var params = {
     q: q,
     fq: null,
-    key: secretKey
+    key: secretKey,
+  num_words: 5
   };
 
   // https://api.mediacloud.org/api/v2/wc/list?q=obama+AND+media_id:1
