@@ -20,7 +20,7 @@ class TitleOperator extends React.Component {
 	onChange() {
 		if (this.refs.val.value.length !== 0) {
 			if (!this.typeTimeout) clearTimeout(this.typeTimeout);
-			this.typeTimeout = setTimeout(this.updateGraph.bind(this), 250);
+			this.typeTimeout = setTimeout(this.updateGraph.bind(this), 450);
 		} else {
 			this.setState({ graphData: null });
 		}
