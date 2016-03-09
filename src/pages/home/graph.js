@@ -19,6 +19,7 @@ function formatData(data) {
             formattedData.push({name: key, pv: data[key], amt: i});
             i += 1;
         }};
+    console.log(formattedData);
     return formattedData;
     
 }

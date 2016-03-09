@@ -3,6 +3,7 @@ import GroupOperator from './group';
 import request from 'superagent';
 import SourceSelector from './sourceSelector';
 import Results from './results';
+import CompareGraph from './compareGraph';
 
 let styles = {};
 
@@ -33,6 +34,7 @@ export default class HomePage extends React.Component {
         <h1 style={styles.header}>NewsClouds Generator</h1>
         <h2 style={styles.subHeader}>Query:</h2>
         <GroupOperator ref="group"/>
+        <CompareGraph title ="Graph"/>
         <h2 style={styles.subHeader}>Sources:</h2>
         <SourceSelector ref="source"/>
         <button style={styles.button} onClick={this.submitButton.bind(this)}>Submit</button>
