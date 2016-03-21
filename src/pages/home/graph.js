@@ -42,7 +42,7 @@ const SimpleLineChart = React.createClass({
 				this.setState({graphData: formatData(res.body.split) });
 			}.bind(this));
 			this.loading = true;
-		}
+                                          }
 
 	},
 	render () {

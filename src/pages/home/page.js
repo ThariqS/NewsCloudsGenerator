@@ -16,6 +16,7 @@ export default class HomePage extends React.Component {
 
     const query = this.refs.group.value();
     this.setState({query, loaded: true, results: []});
+    return;
 
     request
       .post('/stories')
@@ -34,7 +35,7 @@ export default class HomePage extends React.Component {
         <h1 style={styles.header}>NewsClouds Generator</h1>
         <h2 style={styles.subHeader}>Query:</h2>
         <GroupOperator ref="group"/>
-        <CompareGraph title ="Graph"/>
+        <CompareGraph query={this.state.query} title ="Graph"/>
         <h2 style={styles.subHeader}>Sources:</h2>
         <SourceSelector ref="source"/>
         <button style={styles.button} onClick={this.submitButton.bind(this)}>Submit</button>
