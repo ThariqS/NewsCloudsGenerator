@@ -65,7 +65,8 @@ module.exports.getRelatedTerms = function(title, callback) {
   var params = {
     q: q,
     fq: null,
-    key: secretKey
+    key: secretKey,
+  num_words: 5
   };
 
   // https://api.mediacloud.org/api/v2/wc/list?q=obama+AND+media_id:1
@@ -107,7 +108,7 @@ function loopThroughApiCall (start, rows, count, q, fq, results, callback) {
         console.log(err);
       }
       count++;
-      if (res.body.length > 0 && count < 3) {
+      if (res.body.length > 0 && count < 2) {
         var last_id = res.body[res.body.length - 1].processed_stories_id;
         const newResults = results.concat(res.body);
         loopThroughApiCall(last_id, rows, count, q, fq, newResults, callback);
@@ -133,5 +134,5 @@ module.exports.testStory = function() {
 
 
 module.exports.getStories = function(q, fq, callback) {
-  loopThroughApiCall(0,10,0,q,fq,[],callback);
+  loopThroughApiCall(0,30,0,q,fq,[],callback);
 };

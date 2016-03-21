@@ -18,7 +18,8 @@ class SourceSelector extends React.Component {
 		this.setState({sources: sources});
 	}
 	_getSources() {
-		return this.state.sources.map((source) => source.value);
+		return this.state.sources;
+		//return this.state.sources.map((source) => source.value);
 	}
 	render() {
 

@@ -34,7 +34,7 @@ class TextOperator extends React.Component {
 	render() {
 
 		const selectOptions = [
-			{ label: 'title', value: 'title' },
+			{ label: 'title', value: 'sentence' },
 			{ label: 'date', value: 'publish_date' },
 			{ label: 'story', value: 'story' },
 		];

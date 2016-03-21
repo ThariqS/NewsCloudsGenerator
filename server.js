@@ -3,6 +3,8 @@ var app = express();
 var mediacloudAPI = require('./api/mediacloud');
 var bodyParser = require('body-parser');
 
+var apicache = require('apicache').options({ debug: true }).middleware;
+
 /************************************************************
  *
  * Express routes for:
@@ -36,17 +38,17 @@ app.get('/style.css', function(req, res) {
 
 app.post('/testStories', function(req, res) {
 
-  console.log(req.body);
   var q = 'media_sets_id:1 AND title:obama';
   var fq = '';
   var results = mediacloudAPI.getStories(fq, q, function(results) {
-    console.log(results);
     res.json(results);
   });
 
 });
 
-app.get('/graphData', function(req, res) {
+app.get('/graphData', apicache('5 minutes'),  function(req, res) {
+
+  console.log('Not cached graph query!');
 
   var title = req.query.title;
 
@@ -56,7 +58,7 @@ app.get('/graphData', function(req, res) {
 
 });
 
-app.get('/relatedTerms', function(req, res) {
+app.get('/relatedTerms', apicache('5 minutes'), function(req, res) {
 
   var title = req.query.title;
 
@@ -66,7 +68,9 @@ app.get('/relatedTerms', function(req, res) {
 
 });
 
-app.post('/stories', function(req, res) {
+app.post('/stories', apicache('5 minutes'), function(req, res) {
+
+  console.log('Not cached query!');
 
   var q = req.body.q;
   var fq = req.body.fq;

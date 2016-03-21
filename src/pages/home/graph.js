@@ -11,15 +11,16 @@ const styles = {
 };
 
 function formatData(data) {
-	return [
-		{ name: 'Page A', pv: 2400, amt: 2400 },
-		{ name: 'Page B', pv: 1398, amt: 2210 },
-		{ name: 'Page C', pv: 9800, amt: 2290 },
-		{ name: 'Page D', pv: 3908, amt: 2000 },
-		{ name: 'Page E', pv: 4800, amt: 2181 },
-		{ name: 'Page F', pv: 3800, amt: 2500 },
-		{ name: 'Page G', pv: 4300, amt: 2100 },
-	];
+    var i = 0;
+    var formattedData = [];
+    //name: date, pv: mentions amt: incremented by index
+    for (var key in data){
+        if (data[key] === parseInt(data[key], 10)){
+            formattedData.push({name: key, pv: data[key], amt: i});
+            i += 1;
+        }};
+    return formattedData;
+
 }
 
 const SimpleLineChart = React.createClass({
@@ -27,7 +28,6 @@ const SimpleLineChart = React.createClass({
 		console.log(nextProps.title);
 
 		if (!this.loading) {
-			console.log('Fetching data!');
 			ajax
 			.get('/graphData?title='+nextProps.title)
 			.set('Content-Type', 'application/json')
@@ -36,7 +36,6 @@ const SimpleLineChart = React.createClass({
 					console.log(err);
 				}
 				this.loading = false;
-				console.log('Got Data!', res.body);
 				this.setState({graphData: formatData(res.body.split) });
 			}.bind(this));
 			this.loading = true;
