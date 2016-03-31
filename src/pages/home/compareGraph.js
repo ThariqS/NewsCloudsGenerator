@@ -74,7 +74,6 @@ const CompareLineChart = React.createClass({
         this.setState({graphData: data, lines: lines});
     },
     render() {
-        let strokes = ["#8884d8", "#82ca9d", "#3334d8"]; //make more line colors/mod it
     
         return(
         <div style={styles.inline}>
@@ -90,7 +89,7 @@ const CompareLineChart = React.createClass({
             <Legend />
 
             {this.state.lines.map((name, index) => (
-                (<Line type = "monotone" dataKey= {name} stroke= {strokes[index]}/>)))}
+                (<Line type = "monotone" dataKey= {name} stroke= {Strokes(index)}/>)))}
         
             </LineChart>
             :
@@ -104,6 +103,12 @@ const CompareLineChart = React.createClass({
     }
 
 })
+function Strokes(index){
+    let strokes = ["#8884d8", "#82ca9d", "#3334d8"]; //make more line colors/mod it
+    var i = index % strokes.length;
+    return strokes[i];
+    
+}
 
 
 export default CompareLineChart;
