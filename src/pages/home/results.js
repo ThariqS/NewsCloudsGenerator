@@ -5,6 +5,8 @@ import request from 'superagent';
 import async from 'async';
 import Tabs from 'react-simpletabs';
 import moment from 'moment';
+import Loader from 'halogen/PulseLoader';
+
 
 let styles = {};
 
@@ -59,7 +61,8 @@ export default class Results extends React.Component {
 				const articles = this.parseSource(source.label, res.body);
 				const sourceObj = this.state.sources;
 				sourceObj[source.label] = { articles, fetched: true, name: source.label };
-				this.setState({sources: sourceObj});
+				console.log('Set Fetched!');
+				this.setState({sources: sourceObj, fetched: true});
 				this.forceUpdate();
 				callback(null, articles);
 			}.bind(this));
@@ -89,30 +92,37 @@ export default class Results extends React.Component {
 				<span>
 
 				<h1 style={styles.title}>Results
-          <span style={styles.button} onClick={this.submitResults.bind(this)}>Create</span>
+          <span style={[styles.button, styles.createButton]} onClick={this.submitResults.bind(this)}>Create</span>
         </h1>
 
-				<Tabs>
-					{
-						Object.values(this.state.sources).map((sourceObj, index) => {
-							const articleSources = sourceObj.articles;
-							console.log(articleSources);
+				{
+					(this.state.fetched) ?
+					<Tabs key="tab">
+						{
+							Object.values(this.state.sources).map((sourceObj, index) => {
+								const articleSources = sourceObj.articles;
 
-							return (<Tabs.Panel key={sourceObj.name} title={`${sourceObj.name} (${sourceObj.articles.length})`}>
-								<div key={`${sourceObj.name}-wrapper`}>
-									{articleSources.map((article, articleIndex) => {
-										return (<div key={article.url} style={styles.block}>
-											<span>{moment(article.date).format("MMM Do YY")}</span>
-											<span style={styles.button}>Yes</span>
-											<span style={styles.button}>No</span>
-											<a style={styles.link} href={article.url}>{article.title}</a>
-										</div>);
-									})}
-							</div>
-			        </Tabs.Panel>);
-						})
-					}
-	      </Tabs>
+								return (<Tabs.Panel key={sourceObj.name} title={`${sourceObj.name} (${sourceObj.articles.length})`}>
+									<div key={`${sourceObj.name}-wrapper`}>
+										{articleSources.map((article, articleIndex) => {
+											return (<div key={article.url} style={styles.block}>
+												<span>{moment(article.date).format("MMM Do YY")}</span>
+												<span style={styles.button}>Yes</span>
+												<span style={styles.button}>No</span>
+												<a style={styles.link} href={article.url}>{article.title}</a>
+											</div>);
+										})}
+								</div>
+				        </Tabs.Panel>);
+							})
+						}
+		      </Tabs>
+					:
+					<span key="loader" style={styles.loader}>
+				 		<Loader color="#666" size="16px" margin="4px"/>
+				 </span>
+			}
+
 				</span>
 
 				: <div><h2 style={styles.title}>Saved your NewsCloud "{this.props.name}"!</h2> <div>It may take 1-2 minutes for processing of the cloud to complete.</div></div>}
@@ -123,6 +133,10 @@ export default class Results extends React.Component {
 }
 
 styles = {
+	loader: {
+		width: '100%',
+		textAlign: 'center',
+	},
 	link: {
 		color: '#222'
 	},
@@ -146,16 +160,13 @@ styles = {
 		minWidth: '50px',
 		textAlign: 'center',
 		cursor: 'pointer',
-		':hover': {
-			borderColor: 'red',
-		}
 	},
 	overlay: {
 		position: 'fixed',
-		left: '15%',
-		top: '10vh',
-		width: '70vw',
-		height: '80vh',
+		left: '12%',
+		top: '15vh',
+		width: '75vw',
+		height: '85vh',
 		overflow: 'scroll',
 		backgroundColor: 'white',
 		padding: '20px',

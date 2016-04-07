@@ -64,6 +64,7 @@
     "body-parser": "^1.14.2",
     "eslint": "^1.10.3",
     "express": "^4.12.3",
+    "halogen": "^0.2.0",
     "history": "^1.17.0",
     "lodash": "^4.5.1",
     "moment": "^2.11.1",
