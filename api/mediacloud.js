@@ -49,7 +49,6 @@ module.exports.getGraphData = function(title, callback) {
     .get(url)
     .set('Content-Type', 'application/json')
     .end(function(err, res){
-
       if (err) {
         console.log(err);
       }
@@ -134,5 +133,5 @@ module.exports.testStory = function() {
 
 
 module.exports.getStories = function(q, fq, callback) {
-  loopThroughApiCall(0,30,0,q,fq,[],callback);
+  loopThroughApiCall(0,2,0,q,fq,[],callback);
 };

@@ -3,7 +3,7 @@ var app = express();
 var mediacloudAPI = require('./api/mediacloud');
 var bodyParser = require('body-parser');
 
-var apicache = require('apicache').options({ debug: true }).middleware;
+var apicache = require('apicache').options({ debug: true}).middleware;
 
 /************************************************************
  *
@@ -78,7 +78,7 @@ app.post('/stories', apicache('5 minutes'), function(req, res) {
   // q = q + " AND tags_id_media:8875027";
 
   var results = mediacloudAPI.getStories(q, fq, function(results) {
-    console.log(results);
+    // console.log(results);
     res.json(results);
   });
 

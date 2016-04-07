@@ -21,7 +21,10 @@ export default class HomePage extends React.Component {
 
 	}
 	onNameChange(event) {
-		this.setState({name: event.target.value});
+		this.setState({name: event.target.value, loaded: false});
+	}
+	closeResults() {
+		this.setState({loaded: false});
 	}
 	render() {
 		return (
@@ -35,8 +38,8 @@ export default class HomePage extends React.Component {
 				<h2 style={styles.subHeader}>Sources:</h2>
 				<SourceSelector ref="source"/>
 				<button style={styles.button} onClick={this.submitButton.bind(this)}>Submit</button>
-				<Portal isOpened={this.state.loaded} closeOnEsc closeOnOutsideClick>
-					<Results name={this.state.name} sources={this.state.sources} query={this.state.query}/>
+				<Portal isOpened={this.state.loaded} closeOnEsc onClose={this.closeResults}>
+					<Results name={this.state.name} sources={this.state.sources} query={this.state.query} close={this.closeResults}/>
 				</Portal>
 
 			</div>

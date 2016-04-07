@@ -76,6 +76,7 @@
     "react-portal": "^2.0.0",
     "react-router": "^1.0.3",
     "react-selectize": "^0.6.2",
+    "react-simpletabs": "^0.7.0",
     "recharts": "^0.7.0",
     "superagent": "^1.7.2",
     "superagent-jsonapify": "^1.4.1",
