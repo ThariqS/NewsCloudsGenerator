@@ -55,7 +55,7 @@
     "sinon": "^1.17.2",
     "style-loader": "^0.12.3",
     "webpack": "^1.12.12",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
     "apicache": "0.0.12",
     "async": "^1.5.2",
     "babel-core": "^6.4.5",
