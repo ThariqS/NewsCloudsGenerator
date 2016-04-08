@@ -26,29 +26,33 @@ function fetchGraphData(query, callback){
 
 
 function formatData(dataList){
-        var formattedData = [];
-        //Initialize to the right size- can probs fins a better way to do this
-        for (var key in dataList[0].data){
-            if (dataList[0].data[key] === parseInt(dataList[0].data[key], 10)){
-                formattedData.push({});
-                }
-        }
+        var formattedData = {};
         var lines = [];
+        var moments = [];
         for (var i = 0; i < dataList.length; i++){
             var object = dataList[i];
             var name = object.name;
             lines.push(name);
-            var j = 0;
+            
             for (var key in object.data){
                 if (object.data[key] === parseInt(object.data[key], 10)){
-                    formattedData[j]["name"] = key;
-                    formattedData[j][name] = object.data[key];
-                    formattedData[j]["amt"] = j;
-                    j +=1;
+                    var momenty = moment(key).valueOf();
+                    if (!(momenty in formattedData)){
+                        formattedData[momenty] = {};
+                        formattedData[momenty]["name"]= moment(key).format('MM/DD/YY')
+                        moments.push(momenty);
+                        }
+                    formattedData[momenty][name] = object.data[key];
+                    formattedData[momenty]["amt"] = momenty;
                 }
             }
         }
-    return {data: formattedData, lines: lines};
+        moments.sort();
+        var formattedList = [];
+        for (var i = 0; i < moments.length; i++){
+            formattedList.push(formattedData[moments[i]]);
+        }
+    return {data: formattedList, lines: lines};
 }
 
 
@@ -83,7 +87,7 @@ const CompareLineChart = React.createClass({
             <LineChart width={900} height={250}
              data={this.state.graphData}
              margin={{top: 50, right: 30, left: 20, bottom: 5}}>
-            <XAxis dataKey="amt"/>
+            <XAxis dataKey="name"/>
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip/>
             <Legend />
