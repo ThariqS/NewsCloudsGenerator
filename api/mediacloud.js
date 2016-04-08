@@ -88,7 +88,7 @@ module.exports.getRelatedTerms = function(title, callback) {
 
 function loopThroughApiCall (start, rows, count, q, fq, results, callback) {
 
-  var params = {'last_processed_stories_id': start, rows: rows, q: q, fq: fq, key: secretKey };
+  var params = {'last_processed_stories_id': start, rows: rows, q: q, fq: fq, key: secretKey, sort: 'bitly_click_count' };
 
   var queryString = querystringUtils.stringify(params);
 
@@ -133,5 +133,5 @@ module.exports.testStory = function() {
 
 
 module.exports.getStories = function(q, fq, callback) {
-  loopThroughApiCall(0,2,0,q,fq,[],callback);
+  loopThroughApiCall(0,30,0,q,fq,[],callback);
 };

@@ -6,7 +6,8 @@ import async from 'async';
 import Tabs from 'react-simpletabs';
 import moment from 'moment';
 import Loader from 'halogen/PulseLoader';
-
+import outlier from 'outlier';
+import _ from 'lodash';
 
 let styles = {};
 
@@ -44,7 +45,7 @@ export default class Results extends React.Component {
 	}
 	parseSource(sourceName, body) {
 		return body.map((article) => {
-			return { url: article.guid, source: sourceName, title: article.title };
+			return { url: article.guid, source: sourceName, title: article.title, date: article.publish_date};
 		});
 	}
 	fetchSource(query, source, callback) {
@@ -61,7 +62,6 @@ export default class Results extends React.Component {
 				const articles = this.parseSource(source.label, res.body);
 				const sourceObj = this.state.sources;
 				sourceObj[source.label] = { articles, fetched: true, name: source.label };
-				console.log('Set Fetched!');
 				this.setState({sources: sourceObj, fetched: true});
 				this.forceUpdate();
 				callback(null, articles);
@@ -83,8 +83,27 @@ export default class Results extends React.Component {
 				this.setState({saved: true});
 			}.bind(this));
 	}
+
+	processOutliers() {
+		const flattenedArticles = Object.values(this.state.sources).map((source) => source.articles).reduce(function(a, b) { return a.concat(b); }, []);
+		const minDate = _.min(flattenedArticles, 'date').date;
+		const dateDistribution = flattenedArticles.map((article) => moment(minDate).diff(moment(article.date),'days'));
+		console.log(dateDistribution);
+
+		const outliers = outlier(dateDistribution).findOutliers(); // [51]
+
+		console.log(outliers);
+
+		// dateSpread = moment(dateEnd).diff(moment(momentStart),'days')
+
+
+	}
+
 	render() {
 
+		if (this.state.fetched) {
+			this.processOutliers();
+		}
 		return (
 			<div style={styles.overlay}>
 				{(!this.state.saved) ?
@@ -106,9 +125,8 @@ export default class Results extends React.Component {
 									<div key={`${sourceObj.name}-wrapper`}>
 										{articleSources.map((article, articleIndex) => {
 											return (<div key={article.url} style={styles.block}>
+												<span key={`${article.title}button`} style={styles.button}>Use</span>
 												<span>{moment(article.date).format("MMM Do YY")}</span>
-												<span style={styles.button}>Yes</span>
-												<span style={styles.button}>No</span>
 												<a style={styles.link} href={article.url}>{article.title}</a>
 											</div>);
 										})}
@@ -164,7 +182,7 @@ styles = {
 	overlay: {
 		position: 'fixed',
 		left: '12%',
-		top: '15vh',
+		top: 'calc(4em + 5vh)',
 		width: '75vw',
 		height: '85vh',
 		overflow: 'scroll',
