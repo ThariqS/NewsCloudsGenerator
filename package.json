@@ -29,7 +29,7 @@
   "homepage": "https://github.com/pheuter/essential-react",
   "engines": {
     "node": "5.4.x",
-    "npm": "3.3.x",
+    "npm": "3.3.x"
   },
   "devDependencies": {
   },
