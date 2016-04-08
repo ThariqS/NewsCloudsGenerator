@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Radium from 'Radium';
+import Radium from 'radium';
 import {MultiSelect} from 'react-selectize';
 
 

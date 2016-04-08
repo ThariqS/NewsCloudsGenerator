@@ -1,5 +1,5 @@
 import React from 'react';
-import Radium from 'Radium';
+import Radium from 'radium';
 import urlParse from 'url';
 import request from 'superagent';
 import async from 'async';
