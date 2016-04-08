@@ -62,6 +62,18 @@ const CompareLineChart = React.createClass({
         let r = /title:(.*?)(?:AND|$|OR)/g;
         var str = nextProps.query.q;
         var match = r.exec(str);
+        
+        //Getting date range
+        let reg = /publish_date:(.*?)(?:])/g
+        console.log("DATE INPUT");
+        var chunk = reg.exec(nextProps.query.fq)[1].substring(1);
+        let getFirst = /(.*?) TO/g
+        var startDate = moment(getFirst.exec(chunk)[1]);
+        let getSecond = /TO (.*)/g
+        var endDate = moment(getSecond.exec(chunk)[1]);
+        console.log(startDate);
+        console.log(endDate);
+
         var titles = [];
         while(match != null){
             titles.push(match[1]);
@@ -108,7 +120,7 @@ const CompareLineChart = React.createClass({
 
 })
 function Strokes(index){
-    let strokes = ["#8884d8", "#82ca9d", "#3334d8"]; //make more line colors/mod it
+    let strokes = ["#8884d8", "#82ca9d", "#3334d8"]; //make more line colors!!!!!!
     var i = index % strokes.length;
     return strokes[i];
     
