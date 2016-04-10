@@ -1,5 +1,5 @@
 {
-  "name": "NewscloudsGenerator",
+  "name": "essential-react",
   "version": "0.4.0",
   "description": "A minimal skeleton for building testable React apps using Babel",
   "main": "src/main.js",
@@ -27,13 +27,7 @@
     "url": "https://github.com/pheuter/essential-react/issues"
   },
   "homepage": "https://github.com/pheuter/essential-react",
-  "engines": {
-    "node": "5.4.x",
-    "npm": "3.3.x"
-  },
   "devDependencies": {
-  },
-  "dependencies": {
     "autoprefixer": "^6.0.2",
     "ava": "^0.11.0",
     "babel-eslint": "^4.1.8",
@@ -59,7 +53,9 @@
     "sinon": "^1.17.2",
     "style-loader": "^0.12.3",
     "webpack": "^1.12.12",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
     "apicache": "0.0.12",
     "async": "^1.5.2",
     "babel-core": "^6.4.5",

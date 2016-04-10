@@ -6,9 +6,10 @@
     "es6",
     "starter"
   ],
-  "repository": "https://github.com/pheuter/essential-react",
+  "repository": "https://github.com/ThariqS/NewsCloudsGenerator",
   "logo": "https://dl.dropboxusercontent.com/u/1803181/essential-react-logo.png",
   "env": {
-    "PRODUCTION": "true"
+    "PRODUCTION": "true",
+    "NPM_CONFIG_PRODUCTION": "false"
   }
 }
