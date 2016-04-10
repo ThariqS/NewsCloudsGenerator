@@ -58,7 +58,7 @@ styles = {
 	box: {
 		borderLeft: '#A5A5A5 solid 1px',
 		marginLeft: '5px',
-		marginTop: '10px'4
+		marginTop: '10px',
 	},
 	select: {
 		marginLeft: '5px',
