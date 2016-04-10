@@ -75,8 +75,10 @@ export default class Results extends React.Component {
 
 		const flattenedArticles = Object.values(this.state.sources).map((source) => source.articles).reduce(function(a, b) { return a.concat(b); }, []);
 
+		const newscloudURL = (document.location.hostname == "localhost") ? 'http://localhost:8083' :  'http://newsclouds.media.mit.edu';
+
     request
-			.post('http://localhost:8083/createStory')
+			.post(`${newscloudURL}/createStory`)
       .send({ story, articles: flattenedArticles, sourceNames})
 			.end(function(err, res) {
 				console.log('fetched!!');
