@@ -68,7 +68,15 @@ app.get('/relatedTerms', apicache('5 minutes'), function(req, res) {
 
 });
 
-app.post('/stories', apicache('5 minutes'), function(req, res) {
+
+app.post('/stories', apicache('5 minutes'), function(req, res, next) {
+
+  req.socket.setTimeout(0);
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+
+  res.write("{");
 
   console.log('Not cached query!');
 
@@ -79,11 +87,29 @@ app.post('/stories', apicache('5 minutes'), function(req, res) {
 
   var results = mediacloudAPI.getStories(q, fq, function(results) {
     // console.log(results);
-    res.json(results);
+    res.write('"data": '+ JSON.stringify(results) + "}\n\n");
+    res.end();
   });
 
 });
 
+
+
+/*
+app.post('/stories', apicache('5 minutes'), function(req, res) {
+
+  console.log('Not cached query!');
+
+  var q = req.body.q;
+  var fq = req.body.fq;
+
+
+  var results = mediacloudAPI.getStories(q, fq, function(results) {
+    res.json(results);
+  });
+
+});
+*/
 
 // Serve index page
 app.get('*', function(req, res) {

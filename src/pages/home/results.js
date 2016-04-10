@@ -59,7 +59,8 @@ export default class Results extends React.Component {
 			.end(function(err, res) {
 				console.log('fetched!!', source);
 				// const articles = this.state.articles.concat(this.parseSource(source.label, res.body));
-				const articles = this.parseSource(source.label, res.body);
+				const reqdata = JSON.parse(res.text).data;
+				const articles = this.parseSource(source.label, reqdata);
 				const sourceObj = this.state.sources;
 				sourceObj[source.label] = { articles, fetched: true, name: source.label };
 				this.setState({sources: sourceObj, fetched: true});
