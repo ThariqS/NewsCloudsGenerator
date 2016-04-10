@@ -75,7 +75,7 @@ export default class Results extends React.Component {
 
 		const flattenedArticles = Object.values(this.state.sources).map((source) => source.articles).reduce(function(a, b) { return a.concat(b); }, []);
 
-		const newscloudURL = (document.location.hostname == "localhost") ? 'http://localhost:8083' :  'https://newsclouds.media.mit.edu';
+		const newscloudURL = (document.location.hostname == "localhost") ? 'http://localhost:8083' :  'https://newsclouds.herokuapp.com';
 
     request
 			.post(`${newscloudURL}/createStory`)
