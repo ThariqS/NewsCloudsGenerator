@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Radium from 'Radium';
+import Radium from 'radium';
 import OperatorWrapper from './wrapper';
 
 let styles = {};
@@ -58,7 +58,7 @@ styles = {
 	box: {
 		borderLeft: '#A5A5A5 solid 1px',
 		marginLeft: '5px',
-		marginTop: '10px'
+		marginTop: '10px'4
 	},
 	select: {
 		marginLeft: '5px',
