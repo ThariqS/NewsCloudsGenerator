@@ -66,13 +66,15 @@ const CompareLineChart = React.createClass({
         //Getting date range
         let reg = /publish_date:(.*?)(?:])/g
         console.log("DATE INPUT");
-        var chunk = reg.exec(nextProps.query.fq)[1].substring(1);
-        let getFirst = /(.*?) TO/g
-        var startDate = moment(getFirst.exec(chunk)[1]);
-        let getSecond = /TO (.*)/g
-        var endDate = moment(getSecond.exec(chunk)[1]);
-        console.log(startDate);
-        console.log(endDate);
+        if (reg.exec(nextProps.query.fq[1]) != null){
+                                           var chunk = reg.exec(nextProps.query.fq)[1].substring(1);
+                                           let getFirst = /(.*?) TO/g
+                                           var startDate = moment(getFirst.exec(chunk)[1]);
+                                           let getSecond = /TO (.*)/g
+                                           var endDate = moment(getSecond.exec(chunk)[1]);
+                                           console.log(startDate);
+                                           console.log(endDate);
+        }
 
         var titles = [];
         while(match != null){
@@ -120,7 +122,7 @@ const CompareLineChart = React.createClass({
 
 })
 function Strokes(index){
-    let strokes = ["#8884d8", "#82ca9d", "#3334d8"]; //make more line colors!!!!!!
+    let strokes = ["#8884d8", "#d88884", "#D7BF2E", "#4b4b47", "#2A83D4"];
     var i = index % strokes.length;
     return strokes[i];
     
@@ -129,10 +131,3 @@ function Strokes(index){
 
 export default CompareLineChart;
 
-
-/*
-DATE PARSING:
-var str = nextProps.query.fq;
-fq looks like: publish_date:[2016-03-01T05:00:00Z TO 2016-03-10T05:00:00Z]
- ^assume ajax get includes this range
- */
