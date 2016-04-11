@@ -79,7 +79,7 @@ export default class Results extends React.Component {
 
     request
 			.post(`${newscloudURL}/createStory`)
-      .send({ story, articles: flattenedArticles, sourceNames})
+      .send({ story, articles: flattenedArticles, sourceNames })
 			.end(function(err, res) {
 				console.log('fetched!!');
 				console.log(res);
@@ -103,6 +103,8 @@ export default class Results extends React.Component {
 	}
 
 	render() {
+
+		const newscloudURL = (document.location.hostname == "localhost") ? 'http://localhost:8083' :  'https://newsclouds.herokuapp.com';
 
 		if (this.state.fetched) {
 			this.processOutliers();
@@ -146,7 +148,10 @@ export default class Results extends React.Component {
 
 				</span>
 
-				: <div><h2 style={styles.title}>Saved your NewsCloud "{this.props.name}"!</h2> <div>It may take 1-2 minutes for processing of the cloud to complete.</div></div>}
+				: <div>
+					<h2 style={styles.title}>Saved your NewsCloud "{this.props.name}"!</h2>
+						<div>It may take 1-2 minutes for processing of the cloud to complete. <a style={{color:'#666'}} href={`${newscloudURL}/?story=${this.props.name}`}>See it here.</a></div>
+				</div>}
 
 			</div>
 		);
