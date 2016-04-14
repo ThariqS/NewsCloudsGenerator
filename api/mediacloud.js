@@ -2,6 +2,8 @@ var secretKey = require ('../authentication/mediacloud').SECRETKEY;
 var querystringUtils = require('querystring');
 var request = require('superagent');
 var superagentJsonapify = require('superagent');
+var moment = require('moment');
+
 // superagentJsonapify(request);
 //https://api.mediacloud.org/api/v2/stories_public/list?last_processed_stories_id=8625915
 
@@ -31,8 +33,15 @@ module.exports.getGraphData = function(title, callback) {
 
   var q = 'sentence:' + title + ' AND tags_id_media:8875027';
   var split = 'true';
-  var split_start_date = '2015-09-01';
-  var split_end_date = '2016-03-01';
+  //var split_start_date = '2015-09-01';
+  //var split_end_date = '2016-03-01';
+  
+  var now = moment().format("YYYY-MM-DD");
+  var split_end_date = now;
+  var split_start_date = moment().subtract(6, 'months').format("YYYY-MM-DD");
+  console.log("NOW AND THEN");
+  console.log(split_end_date);
+  console.log(split_start_date);
 
   var params = {
     q: q,

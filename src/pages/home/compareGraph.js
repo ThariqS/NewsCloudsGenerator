@@ -1,4 +1,4 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ComposedChart, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import React, { PropTypes } from 'react';
 import ajax from 'superagent';
 import moment from 'moment';
@@ -29,6 +29,7 @@ function formatData(dataList){
         var formattedData = {};
         var lines = [];
         var moments = [];
+        var maxVal = 0;
         for (var i = 0; i < dataList.length; i++){
             var object = dataList[i];
             var name = object.name;
@@ -44,6 +45,10 @@ function formatData(dataList){
                         }
                     formattedData[momenty][name] = object.data[key];
                     formattedData[momenty]["amt"] = momenty;
+                    formattedData[momenty]["box"] = 0;
+                    if (object.data[key] > maxVal){
+                        maxVal = object.data[key];
+                    }
                 }
             }
         }
@@ -52,7 +57,19 @@ function formatData(dataList){
         for (var i = 0; i < moments.length; i++){
             formattedList.push(formattedData[moments[i]]);
         }
-    return {data: formattedList, lines: lines};
+    return {data: formattedList, lines: lines, maxValue: maxVal};
+}
+
+function formatBox(data, start, end, maxVal){
+    var starty = start.valueOf();
+    var endy = end.valueOf();
+    for (var i = 0; i < data.length; i++){
+        if (data[i].amt >= starty && data[i].amt <= endy){
+            data[i]["box"] = maxVal;
+        }
+    }
+    
+    return data;
 }
 
 
@@ -62,18 +79,20 @@ const CompareLineChart = React.createClass({
         let r = /title:(.*?)(?:AND|$|OR)/g;
         var str = nextProps.query.q;
         var match = r.exec(str);
-        
+
         //Getting date range
         let reg = /publish_date:(.*?)(?:])/g
-        console.log("DATE INPUT");
-        if (reg.exec(nextProps.query.fq[1]) != null){
-                                           var chunk = reg.exec(nextProps.query.fq)[1].substring(1);
+        var dateReg = reg.exec(nextProps.query.fq);
+        if (dateReg != null){
+                                           console.log(dateReg);
+                                           var chunk = dateReg[1].substring(1);
+                                           
                                            let getFirst = /(.*?) TO/g
                                            var startDate = moment(getFirst.exec(chunk)[1]);
                                            let getSecond = /TO (.*)/g
                                            var endDate = moment(getSecond.exec(chunk)[1]);
-                                           console.log(startDate);
-                                           console.log(endDate);
+                                           this.setState({start: startDate, end: endDate});
+                                           
         }
 
         var titles = [];
@@ -88,28 +107,37 @@ const CompareLineChart = React.createClass({
                 },
                 
     getAJAXResults(err, results) {
-        const {data, lines} = formatData(results);
+        const {data, lines, maxValue} = formatData(results);
         this.setState({graphData: data, lines: lines});
+        if (this.state.end && this.state.start){
+            var box_data = formatBox(data, this.state.start, this.state.end, maxValue);
+            this.setState({graphData: box_data});
+        }
+        
     },
     render() {
+        
     
         return(
         <div style={styles.inline}>
                                                    
         {(this.state && this.state.graphData) ?
                                                    
-            <LineChart width={900} height={250}
+            <ComposedChart width={900} height={250}
              data={this.state.graphData}
              margin={{top: 50, right: 30, left: 20, bottom: 5}}>
             <XAxis dataKey="name"/>
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip/>
             <Legend />
+            
 
             {this.state.lines.map((name, index) => (
                 (<Line type = "monotone" dataKey= {name} stroke= {Strokes(index)}/>)))}
-        
-            </LineChart>
+               
+            <Area type ='stepBefore' dataKey = 'box' fill = 'rgba(50,50,50,0.1)' stroke='rgba(50,50,50,.0.1)'/>
+
+            </ComposedChart>
             :
             <span></span>
         }
