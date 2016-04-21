@@ -57,6 +57,7 @@ function formatData(dataList){
         for (var i = 0; i < moments.length; i++){
             formattedList.push(formattedData[moments[i]]);
         }
+
     return {data: formattedList, lines: lines, maxValue: maxVal};
 }
 
@@ -125,17 +126,24 @@ const CompareLineChart = React.createClass({
                                                    
             <ComposedChart width={900} height={250}
              data={this.state.graphData}
-             margin={{top: 50, right: 30, left: 20, bottom: 5}}>
+             margin={{top: 50, right: 30, left: 20, bottom: 5}}
+             >
             <XAxis dataKey="name"/>
             <CartesianGrid strokeDasharray="3 3"/>
-            <Tooltip/>
-            <Legend />
-            
+            <Tooltip content={<CustomTooltip/>}/>
+            <Legend content={
+                <ul className="main-nav" style={{textAlign:'center'}}>
+                {this.state.lines.map((name, index) => (
+                    (<span style={{color: Strokes(index), padding:'8px'}}>{name}</span>)))}
+                </ul>
+               
+            } />
+
+            <Area type ='stepBefore' dataKey = 'box' fill = 'rgba(50,50,50,0.1)' stroke='rgba(50,50,50,.0.1)'/>
 
             {this.state.lines.map((name, index) => (
                 (<Line type = "monotone" dataKey= {name} stroke= {Strokes(index)}/>)))}
                
-            <Area type ='stepBefore' dataKey = 'box' fill = 'rgba(50,50,50,0.1)' stroke='rgba(50,50,50,.0.1)'/>
 
             </ComposedChart>
             :
@@ -149,6 +157,45 @@ const CompareLineChart = React.createClass({
     }
 
 })
+
+const CustomTooltip  = React.createClass({
+  propTypes: {
+    type: PropTypes.string,
+    payload: PropTypes.array,
+    label: PropTypes.string,
+  },
+
+  render() {
+    const { active } = this.props;
+
+    if (active) {
+      const { payload, label } = this.props;
+      const tooltipStyle = {
+        backgroundColor: 'rgba(400,400,400,0.85)',
+        padding: '10px',
+      };
+      return (
+        <div className="custom-tooltip" style={tooltipStyle}>
+          <p className="label">{`${label}`}</p>
+          <ul>
+            {payload.filter(notBox).map((name, index) => (
+            (<li className="label" style={{color: name.color, padding: '5px'}}>{`${name.name} : ${name.value}`}</li>)
+            
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    return null;
+  }
+});
+
+function notBox(value){
+    return value.name != 'box';
+
+}
+
 function Strokes(index){
     let strokes = ["#8884d8", "#d88884", "#D7BF2E", "#4b4b47", "#2A83D4"];
     var i = index % strokes.length;
